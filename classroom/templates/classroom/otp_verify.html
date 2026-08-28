@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>אימות קוד OTP</title>
+    <style>
+        body { font-family: Tahoma, sans-serif; background: #0f172a; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: #1e293b; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); width: 320px; text-align: center; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 6px; border: 1px solid #475569; background: #0f172a; color: #fff; text-align: center; font-size: 1.2rem; letter-spacing: 3px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background: #10b981; border: none; border-radius: 6px; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        button:hover { background: #059669; }
+        .error { color: #ef4444; font-size: 0.85rem; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>🔐 אימות דו-שלבי</h2>
+        <p style="font-size: 0.85rem; color: #94a3b8;">הזן את קוד ה-6 ספרות שנשלח אליך (או בדוק בקונסולת השרת)</p>
+        {% if error %}<div class="error">{{ error }}</div>{% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="otp_code" maxlength="6" placeholder="------" required autofocus>
+            <button type="submit">אמת והכנס לכיתה</button>
+        </form>
+    </div>
+</body>
+</html>
