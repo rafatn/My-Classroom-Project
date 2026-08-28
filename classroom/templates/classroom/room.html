@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>הכיתה הוירטואלית שלי</title>
+    <style>
+        :root { --bg-base: #0f172a; --panel-bg: #1e293b; --text-main: #fff; --text-muted: #94a3b8; --success: #10b981; --primary: #3b82f6; }
+        body { font-family: Tahoma, sans-serif; background: var(--bg-base); color: var(--text-main); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        .main-stage { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
+        .video-box { width: 100%; max-width: 800px; height: 450px; background: #000; border-radius: 12px; display: flex; justify-content: center; align-items: center; border: 2px solid #334155; }
+        .sidebar { width: 320px; background: var(--panel-bg); border-right: 1px solid #334155; display: flex; flex-direction: column; padding: 20px; box-sizing: border-box; gap: 20px; }
+        .panel-box { background: rgba(15, 23, 42, 0.5); padding: 15px; border-radius: 8px; border: 1px solid #334155; }
+        .panel-box h3 { margin-top: 0; font-size: 1rem; color: #38bdf8; }
+        .list-container { overflow-y: auto; max-height: 150px; }
+        .btn-logout { background: #ef4444; color: white; border: none; padding: 8px; border-radius: 6px; cursor: pointer; text-decoration: none; text-align: center; display: block; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <!-- סרגל צדדי (ניהול + הקלטות + משתמש) -->
+    <div class="sidebar">
+        <div>
+            <h2>שלום, <span id="username-display" style="color: var(--primary);">{{ username }}</span></h2>
+            {% if is_admin %}
+                <span style="background: #f59e0b; color: #000; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;">מנהל מערכת (Admin)</span>
+            {% endif %}
+        </div>
+
+        <!-- ארכיון הקלטות שיעורים -->
+        <div class="panel-box">
+            <h3>📼 ארכיון הקלטות שיעורים</h3>
+            <div class="list-container">
+                {% for rec in recordings %}
+                    <div style="margin-bottom: 8px; background: var(--bg-base); padding: 8px; border-radius: 6px; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center;">
+                        <span><b>{{ rec.title }}</b></span>
+                        <a href="{{ rec.video_file.url }}" target="_blank" style="color: var(--success); font-weight: bold; text-decoration: none;">צפה 📺</a>
+                    </div>
+                {% empty %}
+                    <span style="color: var(--text-muted); font-size: 0.8rem;">אין הקלטות זמינות כרגע.</span>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% if is_admin %}
+        <div class="panel-box">
+            <h3>⚙️ ניהול מהיר</h3>
+            <a href="/admin/" target="_blank" style="color: #38bdf8; text-decoration: none; font-size: 0.85rem; font-weight: bold;">פתח פאנל ניהול (Admin Panel) ↗</a>
+        </div>
+        {% endif %}
+
+        <div style="margin-top: auto;">
+            <a href="/" class="btn-logout">התנתק מהמערכת</a>
+        </div>
+    </div>
+
+    <!-- הבמה המרכזית -->
+    <div class="main-stage">
+        <h2>🎥 כיתה וירטואלית פעילה</h2>
+        <div class="video-box">
+            <span style="color: var(--text-muted);">השידור החי / המצלמה תופיע כאן</span>
+        </div>
+    </div>
+
+</body>
+</html>
